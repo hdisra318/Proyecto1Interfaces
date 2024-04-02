@@ -1,0 +1,11 @@
+*.icloud
+.vscode/
+
+.DS_Store
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
