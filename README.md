@@ -5,3 +5,4 @@
 - Marco Antonio
 - Diego Calzada
 - Kevin Jair
+- Kassandra Mirael
