@@ -18,7 +18,9 @@
 
 ## Instrucciones para ejecutar este pedo
 
-- Primero activar el entorno virtual `.env`
+- Primero activar el entorno virtual escribir `> entorno_virtual/Scripts/activate`
+
+- Para salir del entorno virtual: `> deactivate`
 
 - Una vez activado ir al directorio `diu/`
 
