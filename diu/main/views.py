@@ -12,6 +12,9 @@ def home(req):
 def login(req):
     return render(req, 'login/login.html')
 
+def signin(req):
+    return render(req, 'signin/signin.html')
+
 @login_required(login_url='/login')
 def crearNota(req):
     user_authenticated = req.user.is_authenticated
