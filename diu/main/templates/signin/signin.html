@@ -17,7 +17,8 @@ Sign in
                 <h2 class="fw-bold text-center">Bienvenido a ...!</h2>
                 <p class="fw-bold text-center pb-5">Registro</p>
 
-                <form action="#">
+                <form action="post">
+                    {% csrf_token %}
                     <div class="mb-4">
                         <label for="name">Nombre</label>
                         <input type="text" class="form-control" name="name">

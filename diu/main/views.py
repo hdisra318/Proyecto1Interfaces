@@ -10,7 +10,7 @@ def home(req):
     return render(req, 'home.html', {'user_authenticated': user_authenticated})
 
 def login(req):
-    return render(req, 'login/login.html')
+    return render(req, 'registration/login.html')
 
 def signin(req):
     return render(req, 'signin/signin.html')
