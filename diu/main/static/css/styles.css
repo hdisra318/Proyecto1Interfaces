@@ -9,6 +9,19 @@
     background-size: 100%;
 }
 
-.btn-outline-light a:hover {
-    color: black;
+.btn-salir:hover {
+    color: black !important;
 }
+
+.card-nota {
+    transition: all .3s ease-in;
+}
+
+.card-nota:hover {
+    transform: scale(1.2);
+}
+
+#eliminarNota .modal-content {
+    background: #b2e2f2;
+}
+

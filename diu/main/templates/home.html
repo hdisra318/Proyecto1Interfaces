@@ -21,9 +21,10 @@ Home
 <!-- Notas -->
 <main class="container row my-5 row-cols-1 row-cols-md-2 row-cols-lg-3 g-5 mx-auto">
     {% if notas %}
+    {% csrf_token %}
         {% for nota in notas %}
         <div class="col">
-            <div class="card shadow" style="width: 18rem; background-color: {{ nota.color }};">
+            <div class="card shadow card-nota" style="width: 18rem; background-color: {{ nota.color }};">
                 <img src="{{ nota.imagen.url }}" class="card-img-top" alt="Imagen de la nota">
                 <div class="card-body" style="font-family: '{{ nota.fuente }}'">
                     <h5 class="card-title">{{ nota.titulo }}</h5>
@@ -38,11 +39,83 @@ Home
                    
                 </div>
                 <div class="card-body">
-                    <a href="#" class="btn btn-outline-success">Editar nota</a>
-                    <a href="#" class="btn btn-outline-danger">Eliminar nota</a>
+                    <button type="button" class="btn btn-outline-success btn-editarNota" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nota-id="{{ nota.id }}">Editar nota</button>
+                    <button type="button" class="btn btn-outline-danger btn-eliminarNota" data-bs-toggle="modal" data-bs-target="#eliminarNota" data-nota-id="{{ nota.id }}">Eliminar nota</button>
                 </div>
             </div>
         </div>
+
+        <!-- Editar -->
+        <div class="modal fade mb-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+              <div class="modal-content">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Nota</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group flex-fill me-4">
+                            <label for="titulo" class="mb-2">Título:</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required>
+                        </div>
+                        <div class="form-group flex-fill">
+                            <label for="color" class="mb-2">Color:</label>
+                            <input type="color" style="border-radius: 50%; border: none;" class="form-control form-control-color" id="color" name="color" value="#000000" required>
+                        </div>
+                        <div class="form-group flex-fill">
+                            <label for="imagen" class="mb-2">Imagen:</label>
+                            <input type="file" class="form-control" id="formFile" name="imagen">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="contenido" class="mb-2">Contenido:</label>
+                            <textarea class="form-control " id="contenido" name="contenido" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="fuente" class="mb-2">Fuente:</label>
+                            <select id="fuente" name="fuente" class="form-select form-select ">
+                                {% for fuente in fuentes %}
+                                    <option value="{{ fuente.id }}">{{ fuente.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="autores" class="mb-2">Autores</label>
+                            <select id="autores" name="autores" multiple class="form-select form-select ">
+                                {% for autor in autores %}
+                                    <option value="{{ autor.id }}">{{ autor.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Eliminar -->
+          <div class="modal fade" id="eliminarNota" tabindex="-1" role="dialog" aria-labelledby="eliminarNotaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="eliminarNotaLabel">Atención</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Deseas eliminar la nota?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="btn-confirm-eliminarNota" type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div>
         {% endfor %}
     {% else %}
         <h2 class="display-3 text-secondary">No hay notas registradas</h2>
