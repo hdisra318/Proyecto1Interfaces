@@ -6,13 +6,18 @@ from django.contrib import messages
 from .forms import RegistroUsuarioForm, NotaForm
 from .models import Nota, Usuario, Fuente
 from django.core import serializers
+from django.views.decorators.http import require_http_methods
+import json
 
 # Create your views here.
 @login_required(login_url='/login')
 def home(req):
     user_authenticated = req.user.is_authenticated
     notas = Nota.objects.all()
-    return render(req, 'home.html', {'username': req.user ,'user_authenticated': user_authenticated, 'notas': notas})
+    autores = Usuario.objects.all()
+    fuentes = Fuente.objects.all()
+
+    return render(req, 'home.html', {'username': req.user ,'user_authenticated': user_authenticated, 'notas': notas, 'autores': autores, 'fuentes': fuentes})
 
 # Login de usuarios
 def login_user(req):
@@ -59,13 +64,25 @@ def crearNota(req):
 
     if req.method == 'POST':
         form = NotaForm(req.POST, req.FILES)
-        print(form.errors)
         if form.is_valid():
             form.save()
             return redirect('/')
     else:
         form = NotaForm()
     return render(req, 'notas/crearNota.html', {'user_authenticated': user_authenticated, 'autores': autores, 'fuentes': fuentes,'form': form})
+
+
+# Edita la nota
+@login_required(login_url='/login')
+def editarNota(req, nota_id):
+    nota = get_object_or_404(Nota, id=nota_id)
+    
+    if req.method == 'POST':
+        form = NotaForm(req.POST, req.FILES, instance=nota)
+        if form.is_valid():
+            form.save()
+    
+    return redirect('/')
 
 
 # Elimina la nota dada de la base de datos
@@ -96,33 +113,3 @@ def obtenerNota(req, nota_id):
     }
 
     return JsonResponse(data)
-
-
-# Obtiene la informacion de las fuentes
-@login_required(login_url='/login')
-def obtenerFuentes(req):
-
-    fuentes = Fuente.objects.all()
-    
-    fuentesJson = []
-    for fuente in fuentes:
-        fuentesJson.append(fuente)
-
-    print(fuentesJson[0])
-    fuentes = serializers.serialize('json', fuentes)
-
-
-    return JsonResponse({
-        'fuentes': fuentes
-    })
-
-# Obtiene la informacion de los autores
-@login_required(login_url='/login')
-def obtenerAutores(req):
-
-    autores = Usuario.objects.all()
-    autores = serializers.serialize('json', autores)
-    
-    return JsonResponse({
-        'autores': autores
-    })

@@ -2,43 +2,6 @@ $(document).ready(function() {
 
     const csrfToken = $('input[name=csrfmiddlewaretoken]').val();
 
-    function obtenerFuentes() {
-        $.ajax({
-            url: '/notas/fuentes/',
-            type: 'GET',
-            success: function(response) {
-                console.log(response)
-                const {fuentes} = response;
-
-                return fuentes 
-            },
-            error: function(error) {
-                console.error('Error al obtener las fuentes:', error);
-            }
-        });
-
-        return null;
-    }
-
-    function obtenerAutores() {
-        $.ajax({
-            url: '/notas/autores/',
-            type: 'GET',
-            success: function(response) {
-                
-                const {autores} = response;
-
-                return autores 
-            },
-            error: function(error) {
-                console.error('Error al obtener los autores:', error);
-            }
-        });
-
-        return null;
-    }
-
-
     $('.btn-eliminarNota').click(function() {
         const notaId = $(this).data('nota-id');
 
@@ -46,28 +9,6 @@ $(document).ready(function() {
         $('#btn-confirm-eliminarNota').data('nota-id', notaId); 
     });
 
-    $('.btn-editarNota').click(function() {
-        const notaId = $(this).data('nota-id');
-        
-        $.ajax({
-            url: '/notas/' + notaId + '/',
-            type: 'GET',
-            success: function(response) {
-                
-                const {titulo, contenido, color, fuente, autores} = response;
-
-                $('#titulo').val(titulo);
-                $('#contenido').val(contenido);
-                $('#color').val(color);
-
-            },
-            error: function(error) {
-                console.error('Error al obtener la información de la nota:', error);
-            }
-        });
-
-        obtenerFuentes()
-    })
 
     $('#btn-confirm-eliminarNota').click(function() {
         const notaId = $(this).data('nota-id');
@@ -77,13 +18,59 @@ $(document).ready(function() {
             type: 'POST',
             headers: { "X-CSRFToken": csrfToken },
             success: function(data) {
-                // Actualizando al pagins
+                // Actualizando la pagina
                 location.reload();
             },
             error: function(error) {
                 console.error('Error al eliminar la nota:', error);
             }
         });
+    })
+
+
+    $('.btn-editarNota').click(function() {
+        const notaId = $(this).data('nota-id');
+        
+        $.ajax({
+            url: '/notas/' + notaId + '/',
+            type: 'GET',
+            success: function(response) {
+                
+                const {titulo, contenido, color, imagen, fuente, autores} = response;
+                
+                $('#titulo').val(titulo);
+                $('#contenido').val(contenido);
+                $('#color').val(color);
+                $('#imagen').val(imagen);
+
+                // Seleccionando opcion 
+                $(`#fuente option:contains("${fuente}")`).prop('selected', true);
+
+                $('#autores option').each(function() {
+                    var autor_id = $(this)[0].innerText;
+
+                    if (autores.includes(autor_id)) {
+                        // Marcar la opcion como seleccionada
+                        $(this).prop('selected', true);
+                    }
+                });
+            },
+            error: function(error) {
+                console.error('Error al obtener la información de la nota:', error);
+            }
+        });
+
+        $('#editarNota').data('nota-id', notaId); 
+    })
+
+
+    // Formulario para editar notas
+    $('#editarNota').submit(function(e) {
+        
+        const notaId = $(this).data('nota-id');
+
+        document.querySelector('#editarNota').action = `notas/editar/${notaId}/`
+
     })
 
 });

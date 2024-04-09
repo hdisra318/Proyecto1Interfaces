@@ -47,29 +47,30 @@ Home
 
         <!-- Editar -->
         <div class="modal fade mb-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog">
               <div class="modal-content">
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" id="editarNota" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Nota</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group flex-fill me-4">
+                        <div class="form-group mb-3">
                             <label for="titulo" class="mb-2">Título:</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" required>
                         </div>
-                        <div class="form-group flex-fill">
+                        <div class="form-group mb-3">
                             <label for="color" class="mb-2">Color:</label>
                             <input type="color" style="border-radius: 50%; border: none;" class="form-control form-control-color" id="color" name="color" value="#000000" required>
                         </div>
-                        <div class="form-group flex-fill">
+                        <div class="form-group mb-3">
                             <label for="imagen" class="mb-2">Imagen:</label>
                             <input type="file" class="form-control" id="formFile" name="imagen">
                         </div>
                         <div class="form-group mb-3">
                             <label for="contenido" class="mb-2">Contenido:</label>
-                            <textarea class="form-control " id="contenido" name="contenido" rows="3" required></textarea>
+                            <textarea class="form-control " id="contenido" name="contenido" rows="5" required></textarea>
                         </div>
                         
                         <div class="form-group mb-3">
@@ -82,7 +83,7 @@ Home
                         </div>
                         <div class="form-group mb-3">
                             <label for="autores" class="mb-2">Autores</label>
-                            <select id="autores" name="autores" multiple class="form-select form-select ">
+                            <select id="autores" name="autores" multiple class="form-select form-select">
                                 {% for autor in autores %}
                                     <option value="{{ autor.id }}">{{ autor.nombre }}</option>
                                 {% endfor %}
