@@ -22,9 +22,12 @@
             </button>
             <div class="collapse navbar-collapse flex-grow-0" id="navbarText">
                 <span class="navbar-text nav-item">
-                    <button type="button" class="btn btn-outline-light">
-                        <a class="nav-link btn-salir"href="/admin/logout">Salir</a>
-                    </button>
+                    <form action="/admin/logout/" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-light">
+                            <a class="nav-link btn-salir">Salir</a>
+                        </button>
+                    </form>
                 </span>
             </div>
         </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import RegistroUsuarioForm, NotaForm
 from .models import Nota, Usuario, Fuente
@@ -40,20 +40,21 @@ def login_user(req):
 
 # Registro de usuarios
 def signin(req):
+
+    form = None
     if req.method == 'POST':
-        
         form = RegistroUsuarioForm(req.POST)
 
-        print(form)
         if form.is_valid():
             form.save()
+            user = authenticate(username=req.POST.get('username'), password=req.POST.get('contrasena'))
+            login(req, user)
             return redirect('/') 
 
         else:
             form = RegistroUsuarioForm()
         
-
-    return render(req, 'signin/signin.html')
+    return render(req, 'signin/signin.html', {'form': form})
 
 
 @login_required(login_url='/login')
