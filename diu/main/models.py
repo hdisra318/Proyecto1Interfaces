@@ -1,22 +1,22 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 import datetime
 
 # Create your models here.
 
 class Usuario(models.Model):
-    username = models.CharField(max_length=20, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50)
-    contrasena = models.CharField(max_length=20)
     fechaCreacion = models.DateField(default=datetime.date.today)
-    tipo = models.IntegerField(null=True)
     correo = models.EmailField(unique=True)
 
+    USERNAME_FIELD = 'username'
+
     def __str__(self) -> str:
-        return self.username
+        return self.nombre
     
     class Meta:
-        ordering = ["username"]
+        ordering = ["nombre"]
 
 
 class Fuente(models.Model):

@@ -14,8 +14,16 @@ Sign in
             </div>
             <!-- Login -->
             <div class="col p-5 bg-white rounded-end">
-                <h2 class="fw-bold text-center">Bienvenido a ...!</h2>
+                <h2 class="fw-bold text-center">¡Bienvenido a Notas App!</h2>
                 <p class="fw-bold text-center pb-5">Registro</p>
+
+                {% if messages %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
 
                 <form method="post">
                     {% csrf_token %}
@@ -31,9 +39,13 @@ Sign in
                         <label for="id_correo">Correo</label>
                         <input type="email" class="form-control" name="correo" id="id_correo">
                     </div>
-                    <div class="mb-5">
+                    <div class="mb-4">
                         <label for="id_contrasena">Contraseña</label>
-                        <input type="password" class="form-control" name="contrasena" id="id_contrasena">
+                        <input type="password" class="form-control" name="password1" id="id_password1">
+                    </div>
+                    <div class="mb-5">
+                        <label for="id_contrasena">Repite la contraseña</label>
+                        <input type="password" class="form-control" name="password2" id="id_password2">
                     </div>
                     <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-outline-info">Registrarse</button>

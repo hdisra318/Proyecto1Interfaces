@@ -24,8 +24,8 @@ def login_user(req):
     if req.method == 'POST':
         username = req.POST.get('username')
         password = req.POST.get('password')
-        user = authenticate(username=username, password=password)
-
+        user = authenticate(req, username=username, password=password)
+        print(user)
         if user is not None:
             login(req, user)
 
@@ -34,28 +34,34 @@ def login_user(req):
 
         
         else:
-             messages.error(req, 'Ups!, El nombre de usuario o la contraseña son incorrectas')
+            messages.error(req, 'Ups!, El nombre de usuario o la contraseña son incorrectas')
     
     return render(req, 'login/login.html')
+
 
 # Registro de usuarios
 def signin(req):
 
-    form = None
+    form = RegistroUsuarioForm()
+
     if req.method == 'POST':
         form = RegistroUsuarioForm(req.POST)
-
+        print(form.errors)
         if form.is_valid():
-            form.save()
+            user = form.save()
             user = authenticate(username=req.POST.get('username'), password=req.POST.get('contrasena'))
             login(req, user)
-            return redirect('/') 
-
+            return redirect('/')
         else:
-            form = RegistroUsuarioForm()
-        
+            messages.error(req, 'Ups!, ¡Error al llenar los datos!')
+            
     return render(req, 'signin/signin.html', {'form': form})
 
+
+def logout_user(req):
+    logout(req)
+
+    return redirect('/login')
 
 @login_required(login_url='/login')
 def crearNota(req):
@@ -65,11 +71,16 @@ def crearNota(req):
 
     if req.method == 'POST':
         form = NotaForm(req.POST, req.FILES)
+        print(form.errors)
         if form.is_valid():
             form.save()
             return redirect('/')
+        else:
+            messages.error(req, "Ups!, ¡Verifique los campos!")
     else:
         form = NotaForm()
+        
+
     return render(req, 'notas/crearNota.html', {'user_authenticated': user_authenticated, 'autores': autores, 'fuentes': fuentes,'form': form})
 
 

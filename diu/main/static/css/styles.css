@@ -9,8 +9,25 @@
     background-size: 100%;
 }
 
+.navbar__view {
+    background-color: #074173 !important;
+}
+
+.home__title {
+    color: #1679AB;
+}
+
 .btn-salir:hover {
     color: black !important;
+}
+
+.agregarNota__btn {
+    border-color: #5DEBD7 !important;
+}
+
+.agregarNota__btn:hover {
+    background: #5DEBD7 !important;
+    color: white !important;
 }
 
 .card-nota {
@@ -25,3 +42,35 @@
     background: #b2e2f2;
 }
 
+.modal__editar {
+    background-color: #C5FF95;
+}
+
+.modal__editar .modal-header {
+    border-bottom: 1px #1679AB solid;
+}
+
+.modal__editar .modal-footer {
+    border-top: 1px #1679AB solid;
+}
+
+.modal__editar .modal__btnGuardar,
+.modal__crear button {
+    border: 1px solid #D37676;
+    background-color: #D37676;
+}
+
+.modal__editar .modal__btnGuardar:hover,
+.modal__crear button:hover {
+    background-color: #a56161;
+}
+
+.modal__crear {
+    background-color: #51829B !important;
+}
+
+.modal__crear h1,
+.modal__crear input,
+.modal__crear label {
+    color: white;
+}

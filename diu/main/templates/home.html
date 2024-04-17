@@ -6,11 +6,10 @@ Home
 
 {% block content %}
 <div class="d-flex justify-content-center position-relative">
-    <h1 class="display-1 mt-5">Bienvenido {{ username }}</h1>
-
+    <h1 class="display-1 mt-5 home__title">Bienvenido {{ username }}</h1>
     <div class="position-absolute top-0 end-0 m-5">
-        <a href="notas/crear-nota" class="btn btn-outline-info rounded-circle shadow-sm p-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-plus text-secondary-emphasis" viewBox="0 0 16 16">
+        <a href="notas/crear-nota" class="btn agregarNota__btn rounded-circle shadow-sm p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
             </svg>
         </a>
@@ -26,12 +25,12 @@ Home
         <div class="col">
             <div class="card shadow card-nota" style="width: 18rem; background-color: {{ nota.color }};">
                 <img src="{{ nota.imagen.url }}" class="card-img-top" alt="Imagen de la nota">
-                <div class="card-body" style="font-family: '{{ nota.fuente }}'">
-                    <h5 class="card-title">{{ nota.titulo }}</h5>
-                    <p class="card-text">{{ nota.contenido }}</p>
+                <div class="card-body">
+                    <h5 class="card-title" style="font-family: '{{ nota.fuente }}'">{{ nota.titulo }}</h5>
+                    <p class="card-text" style="font-family: '{{ nota.fuente }}'">{{ nota.contenido }}</p>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Autores: <small class="text-body-secondary">
+                    <p class="card-text" style="font-family: '{{ nota.fuente }}'">Autores: <small class="text-body-secondary">
                         {% for autor in nota.autores.all %}
                             {{ autor.nombre }}, 
                         {% endfor %}
@@ -49,7 +48,7 @@ Home
         <div class="modal fade mb-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
-                <form method="post" id="editarNota" enctype="multipart/form-data">
+                <form class="modal__editar rounded" method="post" id="editarNota" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Nota</h1>
@@ -91,8 +90,8 @@ Home
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary modal__btnGuardar">Guardar Cambios</button>
                     </div>
                 </form>
               </div>
@@ -119,7 +118,7 @@ Home
           </div>
         {% endfor %}
     {% else %}
-        <h2 class="display-3 text-secondary">No hay notas registradas</h2>
+        <h2 class="display-3 text-secondary w-100 text-center">No hay notas registradas</h2>
     {% endif %}
 </main>
 {% endblock %}
