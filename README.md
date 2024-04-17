@@ -15,23 +15,21 @@
 - Diego Calzada
 - Kevin Jair
 - Kassandra Mirael
+- Camila Cruz
 
 ## Instrucciones para ejecutar este pedo
 - Crear un entorno virtual con el comando `python -m venv .env`
  
-- Activar el entorno virtual `.env`. Para windows usar el comando: `.env\Scripts\actovate.bat`. Para linux y mac `source .env/Scripts/activate`
+- Activar el entorno virtual `.env`. Para windows usar el comando: `.env\Scripts\activate.bat`. Para linux y mac `source .env/Scripts/activate`
 
-<<<<<<< HEAD
 - Primero activar el entorno virtual escribir `> entorno_virtual/Scripts/activate`
 
 - Para salir del entorno virtual: `> deactivate`
-=======
 - Instalar las bibliotecas de `django` y `pillow` con los comandos:
 ```
 pip install django
 pip install Pillow
 ```
->>>>>>> El-Marco
 
 - Una vez activado ir al directorio `diu/`
 
