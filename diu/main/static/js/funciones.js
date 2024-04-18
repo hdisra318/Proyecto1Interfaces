@@ -48,11 +48,13 @@ $(document).ready(function() {
 
                 $('#autores option').each(function() {
                     var autor_id = $(this)[0].innerText;
-
-                    if (autores.includes(autor_id)) {
-                        // Marcar la opcion como seleccionada
-                        $(this).prop('selected', true);
-                    }
+                    console.log(autores)
+                    autores.forEach(autor => {
+                        if(autor.username === autor_id) {
+                            // Marcar la opcion como seleccionada
+                            $(this).prop('selected', true);
+                        }
+                    });
                 });
             },
             error: function(error) {

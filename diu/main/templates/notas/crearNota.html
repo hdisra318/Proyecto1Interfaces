@@ -48,7 +48,7 @@ Crear nota
                 <label for="autores" class="mb-2">Autores</label>
                 <select id="autores" name="autores" multiple class="form-select form-select ">
                     {% for autor in autores %}
-                        <option value="{{ autor.id }}">{{ autor.nombre }}</option>
+                        <option value="{{ autor.id }}">{{ autor.username }}</option>
                     {% endfor %}
                 </select>
             </div>

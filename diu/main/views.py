@@ -1,20 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import RegistroUsuarioForm, NotaForm
 from .models import Nota, Usuario, Fuente
-from django.core import serializers
-from django.views.decorators.http import require_http_methods
-import json
+from django.views.generic import CreateView
+from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required(login_url='/login')
 def home(req):
     user_authenticated = req.user.is_authenticated
     notas = Nota.objects.all()
-    autores = Usuario.objects.all()
+    autores = User.objects.all()
     fuentes = Fuente.objects.all()
 
     return render(req, 'home.html', {'username': req.user ,'user_authenticated': user_authenticated, 'notas': notas, 'autores': autores, 'fuentes': fuentes})
@@ -40,22 +39,21 @@ def login_user(req):
 
 
 # Registro de usuarios
-def signin(req):
+class Sign_in(CreateView):
+    model = Usuario
+    form_class = RegistroUsuarioForm
+    template_name = 'main/signin.html'
 
-    form = RegistroUsuarioForm()
-
-    if req.method == 'POST':
-        form = RegistroUsuarioForm(req.POST)
-        print(form.errors)
-        if form.is_valid():
-            user = form.save()
-            user = authenticate(username=req.POST.get('username'), password=req.POST.get('contrasena'))
-            login(req, user)
-            return redirect('/')
-        else:
-            messages.error(req, 'Ups!, ¡Error al llenar los datos!')
-            
-    return render(req, 'signin/signin.html', {'form': form})
+    def form_valid(self, form):
+        '''
+        En esta parte, si el form es valido lo guardamos y usamos authenticate e iniciamos sesión
+        '''
+        form.save()
+        usuario = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password1')
+        usuario = authenticate(username=usuario, password=password)
+        login(self.request, usuario)
+        return redirect('/')
 
 
 def logout_user(req):
@@ -66,7 +64,7 @@ def logout_user(req):
 @login_required(login_url='/login')
 def crearNota(req):
     user_authenticated = req.user.is_authenticated
-    autores = Usuario.objects.all()
+    autores = User.objects.all()
     fuentes = Fuente.objects.all()
 
     if req.method == 'POST':
@@ -113,6 +111,9 @@ def eliminarNota(req, nota_id):
 @login_required(login_url='/login')
 def obtenerNota(req, nota_id):
     nota = get_object_or_404(Nota, id=nota_id)
+    
+    autores = [{'id': autor.id, 'username': autor.username} for autor in nota.autores.all()]
+
     data = {
         'id': nota.id,
         'titulo': nota.titulo,
@@ -121,7 +122,7 @@ def obtenerNota(req, nota_id):
         'imagen': nota.imagen.url,
         'fecha_creacion': nota.fechaCreacion.strftime('%Y-%m-%d'),
         'fuente': nota.fuente.nombre if nota.fuente else None,
-        'autores': [autor.nombre for autor in nota.autores.all()]
+        'autores': autores
     }
 
     return JsonResponse(data)
