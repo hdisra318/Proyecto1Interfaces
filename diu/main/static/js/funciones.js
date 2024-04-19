@@ -75,4 +75,15 @@ $(document).ready(function() {
 
     })
 
+
+    // Filtro
+    $('#filtro-notas').submit(function(e) {
+
+        e.preventDefault();
+
+        var filtroTitulo = $('#filtro-titulo').val();
+        var filtroColor = $('#filtro-color').val();
+        var filtroFechaCreacion = $('#filtro-fecha-creacion').val();
+        
+    });
 });

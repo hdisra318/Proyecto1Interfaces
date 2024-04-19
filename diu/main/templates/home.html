@@ -18,6 +18,24 @@ Home
 </div>
 
 <!-- Notas -->
+{% if notas %}
+{% csrf_token %}
+<form id="filtro-notas" class="container bg-info rounded">
+    <div class="form-group mb-2">
+        <label for="filtro-titulo" class="mb-2">Título:</label>
+        <input type="text" id="filtro-titulo" placeholder="Título" name="filtro-titulo">
+    </div>
+    <div class="form-group mb-3">
+        <label for="filtro-color" class="mb-2">Color:</label>
+        <input type="color" id="filtro-color" name="filtro-color">
+    </div>
+    <div class="form-group mb-3">
+        <label for="filtro-fecha-creacion" class="mb-2">Fecha de Creación:</label>
+        <input type="date" id="filtro-fecha-creacion" name="filtro-fecha-creacion">
+    </div>
+    <button type="submit">Filtrar</button>
+</form>
+{% endif %}
 <main class="container row my-5 row-cols-1 row-cols-md-2 row-cols-lg-3 g-5 mx-auto">
     {% if notas %}
     {% csrf_token %}
@@ -90,7 +108,6 @@ Home
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary modal__btnGuardar">Guardar Cambios</button>
                     </div>
                 </form>

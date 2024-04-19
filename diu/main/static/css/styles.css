@@ -43,7 +43,7 @@
 }
 
 .modal__editar {
-    background-color: #C5FF95;
+    background-color: #b2e2f2;
 }
 
 .modal__editar .modal-header {
@@ -54,13 +54,21 @@
     border-top: 1px #1679AB solid;
 }
 
-.modal__editar .modal__btnGuardar,
+.modal__editar .modal__btnGuardar {
+    border: 1px solid #1679AB;
+    background-color: #1679AB;
+}
+
+.modal__editar .modal__btnGuardar:hover {
+    background-color: #10587c;
+}
+
 .modal__crear button {
     border: 1px solid #D37676;
     background-color: #D37676;
 }
 
-.modal__editar .modal__btnGuardar:hover,
+
 .modal__crear button:hover {
     background-color: #a56161;
 }
