@@ -1,6 +1,5 @@
 from django import forms
 from .models import Nota
-from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -58,3 +57,9 @@ class NotaForm(forms.ModelForm):
     class Meta:
         model = Nota
         fields = ['titulo', 'contenido', 'color', 'imagen', 'fuente', 'autores']
+
+
+class FiltroNotasForm(forms.Form):
+    titulo = forms.CharField(required=False, label='Título', widget=forms.TextInput(attrs={'id': 'filtro-titulo', 'name':'filtro-titulo', 'class': 'form-control', 'type': 'text', 'placeholder': 'Título de la nota'}))
+    color = forms.CharField(required=False, label='Color', widget=forms.TextInput(attrs={'type': 'color', 'id': 'filtro-color', 'name':'filtro-color', 'class': 'form-control form-control-color', 'style': 'border-radius: 50%; border: none;'}))
+    fecha_creacion = forms.DateField(required=False, label='Fecha de Creación', widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))

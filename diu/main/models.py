@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
-# Create your models here.
 
+# Modelo Usuario
 class Usuario(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=1, null=False, blank=False)
     fechaCreacion = models.DateField(User, default=datetime.date.today)
@@ -13,6 +13,7 @@ class Usuario(models.Model):
         ordering = ["user__first_name"]
 
 
+# Modelo Fuente
 class Fuente(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=20, unique=True)
@@ -23,6 +24,7 @@ class Fuente(models.Model):
     class Meta:
         ordering = ["nombre"]
 
+# Modelo Nota
 class Nota(models.Model):
     id = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=50)

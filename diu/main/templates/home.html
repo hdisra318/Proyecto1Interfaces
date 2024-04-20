@@ -6,7 +6,7 @@ Home
 
 {% block content %}
 <div class="d-flex justify-content-center position-relative">
-    <h1 class="display-1 mt-5 home__title">Bienvenido {{ username }}</h1>
+    <h1 class="display-1 mt-5 ms-3 ms-lg-0 home__title">Bienvenido {{ username }}</h1>
     <div class="position-absolute top-0 end-0 m-5">
         <a href="/notas/crear-nota" class="btn btn-outline-info rounded-circle shadow-sm p-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-plus text-secondary-emphasis" viewBox="0 0 16 16">
@@ -18,24 +18,37 @@ Home
 </div>
 
 <!-- Notas -->
-{% if notas %}
+<button type="button" class="btn m-3 m-lg-5 mb-0 mb-lg-0 filtrarModal_btn" data-bs-toggle="modal" data-bs-target="#filtrarModal">Filtrar notas</button>
 {% csrf_token %}
-<form id="filtro-notas" class="container bg-info rounded">
-    <div class="form-group mb-2">
-        <label for="filtro-titulo" class="mb-2">Título:</label>
-        <input type="text" id="filtro-titulo" placeholder="Título" name="filtro-titulo">
+<div class="modal fade" id="filtrarModal" tabindex="-1" aria-labelledby="filtrarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="GET" action="/notas/filtrar" id="filtro-notas" class="modal__editar rounded">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="filtrarModalLabel">Filtrar Notas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-2">
+                    <label for="filtro-titulo" class="mb-2">Título:</label>
+                    {{ form.titulo }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="filtro-color" class="mb-2">Color:</label>
+                    {{ form.color }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="filtro-fecha-creacion" class="mb-2">Fecha de Creación:</label>
+                    {{ form.fecha_creacion }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary modal__btnGuardar">Filtrar</button>
+            </div>
+        </form>
+      </div>
     </div>
-    <div class="form-group mb-3">
-        <label for="filtro-color" class="mb-2">Color:</label>
-        <input type="color" id="filtro-color" name="filtro-color">
-    </div>
-    <div class="form-group mb-3">
-        <label for="filtro-fecha-creacion" class="mb-2">Fecha de Creación:</label>
-        <input type="date" id="filtro-fecha-creacion" name="filtro-fecha-creacion">
-    </div>
-    <button type="submit">Filtrar</button>
-</form>
-{% endif %}
+</div>
 <main class="container row my-5 row-cols-1 row-cols-md-2 row-cols-lg-3 g-5 mx-auto">
     {% if notas %}
     {% csrf_token %}
@@ -53,7 +66,6 @@ Home
                             {{ autor }}, 
                         {% endfor %}
                     </small></p>
-                   
                 </div>
                 <div class="card-body">
                     <button type="button" class="btn btn-outline-success btn-editarNota" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nota-id="{{ nota.id }}">Editar nota</button>
@@ -69,8 +81,8 @@ Home
                 <form class="modal__editar rounded" method="post" id="editarNota" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Nota</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Nota</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
@@ -127,7 +139,6 @@ Home
                     <p>¿Deseas eliminar la nota?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button id="btn-confirm-eliminarNota" type="button" class="btn btn-danger">Eliminar</button>
                 </div>
               </div>

@@ -46,11 +46,13 @@
     background-color: #b2e2f2;
 }
 
-.modal__editar .modal-header {
+.modal__editar .modal-header,
+#eliminarNota .modal-header {
     border-bottom: 1px #1679AB solid;
 }
 
-.modal__editar .modal-footer {
+.modal__editar .modal-footer,
+#eliminarNota .modal-footer{
     border-top: 1px #1679AB solid;
 }
 
@@ -63,13 +65,15 @@
     background-color: #10587c;
 }
 
-.modal__crear button {
+.modal__crear button,
+#eliminarNota #btn-confirm-eliminarNota {
     border: 1px solid #D37676;
     background-color: #D37676;
 }
 
 
-.modal__crear button:hover {
+.modal__crear button:hover,
+#eliminarNota #btn-confirm-eliminarNota:hover {
     background-color: #a56161;
 }
 
@@ -81,4 +85,13 @@
 .modal__crear input,
 .modal__crear label {
     color: white;
+}
+
+.filtrarModal_btn {
+    background-color: #1679AB !important;
+    color: #fff !important;
+}
+
+.filtrarModal_btn:hover {
+    background-color: #12638b !important;
 }

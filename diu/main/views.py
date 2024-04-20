@@ -3,16 +3,14 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import RegistroUsuarioForm, NotaForm
+from .forms import RegistroUsuarioForm, NotaForm, FiltroNotasForm
 from .models import Nota, Usuario, Fuente
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.contrib.sessions.models import Session
 
-# Create your views here.
 
 # Pagina principal
 @login_required(login_url='/login')
@@ -21,8 +19,9 @@ def home(req):
     notas = Nota.objects.all()
     autores = User.objects.all()
     fuentes = Fuente.objects.all()
+    form = FiltroNotasForm()
 
-    return render(req, 'home.html', {'username': req.user ,'user_authenticated': user_authenticated, 'notas': notas, 'autores': autores, 'fuentes': fuentes})
+    return render(req, 'home.html', {'username': req.user ,'user_authenticated': user_authenticated, 'notas': notas, 'autores': autores, 'fuentes': fuentes, 'form': form})
 
 # Login de usuarios
 def login_user(req):
@@ -58,7 +57,7 @@ class Sign_in(CreateView):
         password = form.cleaned_data.get('password1')
         usuario = authenticate(username=username, password=password)
 
-        # Notificacion de inicio de sesion
+        # Notificacion de creacion de usuario
         self.request.session['correo'] = usuario.email
         template = render_to_string('email_template.html', {
             'usuario': usuario.get_username(),
@@ -79,11 +78,14 @@ class Sign_in(CreateView):
         return redirect('/')
 
 
+# Cierre de sesion
 def logout_user(req):
     logout(req)
 
     return redirect('/login')
 
+
+# Creacion de notas
 @login_required(login_url='/login')
 def crearNota(req):
     user_authenticated = req.user.is_authenticated
@@ -197,3 +199,40 @@ def obtenerNota(req, nota_id):
     }
 
     return JsonResponse(data)
+
+
+# Realiza el filtrado de notas
+@login_required(login_url='/login')
+def filtrarNotas(req):
+
+    user_authenticated = req.user.is_authenticated
+    autores = User.objects.all()
+    fuentes = Fuente.objects.all()
+
+    if req.method == 'GET':
+        form = FiltroNotasForm(req.GET)
+        if form.is_valid():
+            titulo = form.cleaned_data.get('titulo')
+            color = form.cleaned_data.get('color')
+            fecha_creacion = form.cleaned_data.get('fecha_creacion')
+
+            # Filtrando las notas
+            notas_filtradas = Nota.objects.all()
+
+            if titulo:
+                notas_filtradas = notas_filtradas.filter(titulo__startswith=titulo)
+            
+            # Si se modifico el color
+            if color and color != '#000000':
+                notas_filtradas = notas_filtradas.filter(color=color)
+
+            if fecha_creacion:
+                notas_filtradas = notas_filtradas.filter(fechaCreacion=fecha_creacion)
+
+            redirect('/')
+            # Renderizar el HTML con las notas filtradas
+            return render(req, 'home.html', {'username': req.user ,'user_authenticated': user_authenticated, 'autores': autores, 'fuentes': fuentes, 'form': form, 'notas': notas_filtradas})    
+    else:
+        form = FiltroNotasForm()
+
+    return redirect('/')

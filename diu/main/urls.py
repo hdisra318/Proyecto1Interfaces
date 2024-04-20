@@ -14,5 +14,8 @@ urlpatterns = [
     path('notas/eliminar-nota/<int:nota_id>/', views.eliminarNota, name='eliminarNota'),
     path('notas/<int:nota_id>/', views.obtenerNota, name='obtenerNota'),
     path('notas/editar/<int:nota_id>/', views.editarNota, name='editarNota'),
+    path('notas/filtrar/', views.filtrarNotas, name='filtrarNotas'),
+    path('notas/filtrar/notas/editar/<int:nota_id>/', views.editarNota, name='editarNota'),
+    path('notas/filtrar/notas/eliminar-nota/<int:nota_id>/', views.eliminarNota, name='eliminarNota')
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
