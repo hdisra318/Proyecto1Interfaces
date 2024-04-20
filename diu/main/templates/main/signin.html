@@ -1,0 +1,67 @@
+{% extends "../base/base.html" %}
+
+{% block title %}
+Sign in
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="container w-75 bg-info rounded shadow">
+        <div class="row align-items-stretch">
+            <!-- Imagen -->
+            <div class="col login__image d-none d-lg-block col-md-5 col-lg-5 col-xl-6 rounded">
+
+            </div>
+            <!-- Login -->
+            <div class="col p-5 bg-white rounded-end">
+                <h2 class="fw-bold text-center">¡Bienvenido a Notas App!</h2>
+                <p class="fw-bold text-center pb-5">Registro</p>
+
+                {% if messages %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="id_first_name">Nombre</label>
+                        {{ form.first_name }}
+                        {{ form.first_name.errors }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="id_username">Nombre de Usuario</label>
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="id_email">Correo</label>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="id_password1">Contraseña</label>
+                        {{ form.password1 }}
+                        {{ form.password1.errors }}
+                    </div>
+                    <div class="mb-5">
+                        <label for="id_password2">Repite la contraseña</label>
+                        {{ form.password2 }}
+                        {{ form.password2.errors }}
+                    </div>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-outline-info">Registrarse</button>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <a href="/login/" class="nav-link">¿Ya tienes una cuenta? Inicia Sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

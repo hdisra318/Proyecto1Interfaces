@@ -1,0 +1,60 @@
+{% extends "../base/base.html" %}
+
+{% block title %}
+Crear nota
+{% endblock %}
+
+{% block content %}
+<div class="container card my-5 shadow-sm modal__crear">
+    <div class="card-body">
+        <h1 class="card-title mt-3 mb-4">Crear Nota</h1>
+        {% if messages %}
+            <div class="alert alert-danger text-center" role="alert">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-group flex-fill me-4">
+                    <label for="titulo" class="mb-2">Título:</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo" required>
+                </div>
+                <div class="form-group flex-fill">
+                    <label for="color" class="mb-2">Color:</label>
+                    <input type="color" style="border-radius: 50%; border: none;" class="form-control form-control-color" id="color" name="color" value="#000000" required>
+                </div>
+                <div class="form-group flex-fill">
+                    <label for="imagen" class="mb-2">Imagen:</label>
+                    <input type="file" class="form-control" id="formFile" name="imagen">
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="contenido" class="mb-2">Contenido (No más de 200 caracteres):</label>
+                <textarea class="form-control" id="contenido" name="contenido" rows="6" required></textarea>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="fuente" class="mb-2">Fuente:</label>
+                <select id="fuente" name="fuente" class="form-select form-select ">
+                    {% for fuente in fuentes %}
+                        <option value="{{ fuente.id }}">{{ fuente.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="autores" class="mb-2">Autores</label>
+                <select id="autores" name="autores" multiple class="form-select form-select ">
+                    {% for autor in autores %}
+                        <option value="{{ autor.id }}">{{ autor.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success my-3">Guardar</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "./base/base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center position-relative">
+    <h1 class="display-1 mt-5 ms-3 ms-lg-0 home__title">Bienvenido {{ username }}</h1>
+    <div class="position-absolute top-0 end-0 m-5">
+        <a href="/notas/crear-nota" class="btn btn-outline-info rounded-circle shadow-sm p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-plus text-secondary-emphasis" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>
+        </a>
+    </div>
+
+</div>
+
+<!-- Notas -->
+<button type="button" class="btn m-3 m-lg-5 mb-0 mb-lg-0 filtrarModal_btn" data-bs-toggle="modal" data-bs-target="#filtrarModal">Filtrar notas</button>
+{% csrf_token %}
+<div class="modal fade" id="filtrarModal" tabindex="-1" aria-labelledby="filtrarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="GET" action="/notas/filtrar" id="filtro-notas" class="modal__editar rounded">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="filtrarModalLabel">Filtrar Notas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-2">
+                    <label for="filtro-titulo" class="mb-2">Título:</label>
+                    {{ form.titulo }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="filtro-color" class="mb-2">Color:</label>
+                    {{ form.color }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="filtro-fecha-creacion" class="mb-2">Fecha de Creación:</label>
+                    {{ form.fecha_creacion }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary modal__btnGuardar">Filtrar</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+<main class="container row my-5 row-cols-1 row-cols-md-2 row-cols-lg-3 g-5 mx-auto">
+    {% if notas %}
+    {% csrf_token %}
+        {% for nota in notas %}
+        <div class="col">
+            <div class="card shadow card-nota" style="width: 18rem; background-color: {{ nota.color }};">
+                <img src="{{ nota.imagen.url }}" class="card-img-top" alt="Imagen de la nota">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-family: '{{ nota.fuente }}'">{{ nota.titulo }}</h5>
+                    <p class="card-text" style="font-family: '{{ nota.fuente }}'">{{ nota.contenido }}</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" style="font-family: '{{ nota.fuente }}'">Autores: <small class="text-body-secondary">
+                        {% for autor in nota.autores.all %}
+                            {{ autor }}, 
+                        {% endfor %}
+                    </small></p>
+                </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-outline-success btn-editarNota" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nota-id="{{ nota.id }}">Editar nota</button>
+                    <button type="button" class="btn btn-outline-danger btn-eliminarNota" data-bs-toggle="modal" data-bs-target="#eliminarNota" data-nota-id="{{ nota.id }}">Eliminar nota</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editar -->
+        <div class="modal fade mb-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form class="modal__editar rounded" method="post" id="editarNota" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Nota</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label for="titulo" class="mb-2">Título:</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="color" class="mb-2">Color:</label>
+                            <input type="color" style="border-radius: 50%; border: none;" class="form-control form-control-color" id="color" name="color" value="#000000" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="imagen" class="mb-2">Imagen:</label>
+                            <input type="file" class="form-control" id="formFile" name="imagen">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="contenido" class="mb-2">Contenido:</label>
+                            <textarea class="form-control " id="contenido" name="contenido" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="fuente" class="mb-2">Fuente:</label>
+                            <select id="fuente" name="fuente" class="form-select form-select ">
+                                {% for fuente in fuentes %}
+                                    <option value="{{ fuente.id }}">{{ fuente.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="autores" class="mb-2">Autores</label>
+                            <select id="autores" name="autores" multiple class="form-select form-select">
+                                {% for autor in autores.all %}
+                                    <option value="{{ autor.id }}">{{ autor.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary modal__btnGuardar">Guardar Cambios</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Eliminar -->
+          <div class="modal fade" id="eliminarNota" tabindex="-1" role="dialog" aria-labelledby="eliminarNotaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="eliminarNotaLabel">Atención</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Deseas eliminar la nota?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-confirm-eliminarNota" type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    {% else %}
+        <h2 class="display-3 text-secondary w-100 text-center">No hay notas registradas</h2>
+    {% endif %}
+</main>
+{% endblock %}

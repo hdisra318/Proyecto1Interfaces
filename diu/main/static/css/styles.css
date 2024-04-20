@@ -1,0 +1,97 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.login__image {
+    background-image: url('https://img.interempresas.net/fotos/3134556.jpeg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.navbar__view {
+    background-color: #074173 !important;
+}
+
+.home__title {
+    color: #1679AB;
+}
+
+.btn-salir:hover {
+    color: black !important;
+}
+
+.agregarNota__btn {
+    border-color: #5DEBD7 !important;
+}
+
+.agregarNota__btn:hover {
+    background: #5DEBD7 !important;
+    color: white !important;
+}
+
+.card-nota {
+    transition: all .3s ease-in;
+}
+
+.card-nota:hover {
+    transform: scale(1.2);
+}
+
+#eliminarNota .modal-content {
+    background: #b2e2f2;
+}
+
+.modal__editar {
+    background-color: #b2e2f2;
+}
+
+.modal__editar .modal-header,
+#eliminarNota .modal-header {
+    border-bottom: 1px #1679AB solid;
+}
+
+.modal__editar .modal-footer,
+#eliminarNota .modal-footer{
+    border-top: 1px #1679AB solid;
+}
+
+.modal__editar .modal__btnGuardar {
+    border: 1px solid #1679AB;
+    background-color: #1679AB;
+}
+
+.modal__editar .modal__btnGuardar:hover {
+    background-color: #10587c;
+}
+
+.modal__crear button,
+#eliminarNota #btn-confirm-eliminarNota {
+    border: 1px solid #D37676;
+    background-color: #D37676;
+}
+
+
+.modal__crear button:hover,
+#eliminarNota #btn-confirm-eliminarNota:hover {
+    background-color: #a56161;
+}
+
+.modal__crear {
+    background-color: #51829B !important;
+}
+
+.modal__crear h1,
+.modal__crear input,
+.modal__crear label {
+    color: white;
+}
+
+.filtrarModal_btn {
+    background-color: #1679AB !important;
+    color: #fff !important;
+}
+
+.filtrarModal_btn:hover {
+    background-color: #12638b !important;
+}
