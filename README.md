@@ -6,15 +6,6 @@
 - Diego Calzada
 - Kevin Jair
 - Kassandra Mirael
-
-# Proyecto 1 del curso de Diseño de Interfaces de Usuario
-
-## Integrantes
-- Israel Hernández Dorantes
-- Marco Antonio
-- Diego Calzada
-- Kevin Jair
-- Kassandra Mirael
 - Camila Cruz
 
 ## Instrucciones para ejecutar este pedo
@@ -29,6 +20,7 @@
 ```
 pip install django
 pip install Pillow
+pip install django-extensions
 ```
 
 - Una vez activado ir al directorio `diu/`
@@ -71,5 +63,5 @@ n.save() # guarda la nota
 Nota.objects.all() # mUestra todas las notas
 Nota.objects.get(id=1).autores.set(Usuario.objects.all()) # asigna como autores a todos alv
 ```
-
-
+# Sistemas Operativos donde funciona
+Por el momento el unico Sistema Operativo donde no funciona correctamente es sobre MacOs
