@@ -2,9 +2,9 @@
 
 ## Integrantes
 - Israel Hernández Dorantes
-- Marco Antonio
-- Diego Calzada
-- Kevin Jair
+- Marco Antonio Rivera Silva
+- Diego Martinez Calzada
+- Kevin Jair Torres Valencia
 - Kassandra Mirael
 - Camila Cruz
 
